@@ -1,2 +1,2 @@
 # PowerShellScripts
-Very clearly pwsh scripts.
+Very clearly pwsh scripts and modules.
