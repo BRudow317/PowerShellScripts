@@ -489,16 +489,16 @@ Get-Process nosuchprocess `
 
 
 # Define log directory and files
-$LogRoot = "C:\Logs"
+$LogRoot = "$home\.logs"
 New-Item -ItemType Directory -Force -Path $LogRoot | Out-Null
 
 $LogFiles = @{
-Output = Join-Path $LogRoot "output.log"
-Error = Join-Path $LogRoot "error.log"
-Warning = Join-Path $LogRoot "warning.log"
-Verbose = Join-Path $LogRoot "verbose.log"
-Debug = Join-Path $LogRoot "debug.log"
-Info = Join-Path $LogRoot "info.log"
+    Output = Join-Path $LogRoot "output.log"
+    Error = Join-Path $LogRoot "error.log"
+    Warning = Join-Path $LogRoot "warning.log"
+    Verbose = Join-Path $LogRoot "verbose.log"
+    Debug = Join-Path $LogRoot "debug.log"
+    Info = Join-Path $LogRoot "info.log"
 }
 
 # Preferences so Verbose/Debug/Info actually emit output

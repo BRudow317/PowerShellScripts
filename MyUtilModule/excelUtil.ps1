@@ -1,5 +1,5 @@
-# ----Start of file excelHandling-----------------------------------------------------------------
-$Global:openWorkbooks = [System.Management.Automation.OrderedHashtable]@{}
+# ----Start of file excelUtil-----------------------------------------------------------------
+$Global:openWorkbooks = [ordered]@{}
 function Open-ExcelWorkbook {
     param ([string]$filePath,
         [ValidateSet("True", "False")] [string]$showWorkbook = "False"
@@ -79,7 +79,7 @@ function ConvertWbToCsv {
         # Save to CSV
         $finalCsvData | Export-Csv -Path $outputCsv -NoTypeInformation -Encoding UTF8
         Write-Host "Converted workbook to CSV: $outputCsv"
-        Close-ExcelWorkbook -filePath $WorkbookPath -saveChanges "False"
+        Close-ExcelWorkbook -filePath "$WorkbookPath" -saveChanges "False"
     }
     Catch {
         Write-Host $(Get-ExceptionDetails -Exception $_ -ErrorActionPreference "Stop")
@@ -91,7 +91,7 @@ function Close-ExcelWorkbook {
         [ValidateSet("True", "False")] [string]$saveChanges = "False"
     )
     Try {
-        if ($Global:openWorkbooks.ContainsKey($filePath)) {
+        if ($Global:openWorkbooks.ContainsKey("$filePath")) {
             $workbook = $Global:openWorkbooks["$filePath"]
             if ($saveChanges -eq "True") {
                 $workbook.Save()
@@ -115,4 +115,43 @@ function Close-ExcelWorkbook {
     }
 }
 
-# ----End of file excelHandling-----------------------------------------------------------------
+function Close-ExcelWbForce {
+    # param([string]$filePath)
+    # Attempt to get an active instance of the Excel Application COM object
+    try {
+        $excel = [Runtime.InteropServices.Marshal]::GetActiveObject('Excel.Application')
+    }
+    catch {
+        Write-Host "Could not find a running instance of Microsoft Excel."
+        exit
+    }
+
+    Write-Host "Found active Excel instance. Open workbooks:"
+    
+    # Loop through all open workbooks in that instance and display their FullName property
+    foreach ($workbook in $excel.Workbooks) {
+        # FullName provides the complete path and filename
+        $path = $workbook.FullName
+       
+        if (-not [string]::IsNullOrEmpty($path)) {
+            Write-Host $path
+        }
+        else {
+            # This case handles new, unsaved workbooks (e.g., Book1, Book2)
+            Write-Host "Unsaved workbook: $($workbook.Name)"
+        }
+    }
+    # $excel = New-Object -ComObject Excel.Application
+    # $workbook = $excel.Workbooks.Open("$filePath")
+    # $workbook.Close()
+    # #$excel = $workbook.Application
+    # $excel.Visible = $true
+    # $excel.Quit()
+    # [System.Runtime.Interopservices.Marshal]::ReleaseComObject($excel) | Out-Null
+    # Remove-Variable excel
+    # Remove-Variable workbook
+    # [GC]::Collect()
+    # [GC]::WaitForPendingFinalizers()
+}
+
+# ----End of file excelUtil-----------------------------------------------------------------

@@ -26,9 +26,12 @@ $LogFiles = @{
     Warning = Join-Path $SessionLogs "$todayDate-warning.log"
     Verbose = Join-Path $SessionLogs "$todayDate-verbose.log"
     Debug = Join-Path $SessionLogs "$todayDate-debug.log"
-    Info = Join-Path $SessionLogs "$todayDate-info.log"
+    I
+    nfo = Join-Path $SessionLogs "$todayDate-info.log"
 }
-
+if (-not (Test-Path $LogFiles.Output) ) {
+    New-Item -ItemType File -Force -Path "$LogFiles.Output" | Out-Null
+}
 function Invoke-SessionLogTee {
     param(
         [Parameter(Mandatory)][ScriptBlock]$Script,
