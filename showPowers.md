@@ -1,13 +1,15 @@
 # ----Start of file showPowers-----------------------------------------------------------------
 # PowerShell command list
 # Get-Help Logical assistance
+```ps1
     Get-Help Set-ExecutionPolicy -online # pulls up set execution documentation
     Get-Help about_* # about_cmdlet gets the description for the cmdlet, * gets all cmdlets
     Get-Help Get-Help -Examples # Provides examples of the Get-Help cmdlet
     # Get-Help [[-Name] <System.String>] [-Full] [-Examples] [-Detailed] [-Online] [-ShowWindow] [<CommonParameters>]]
 # Cmdlet References
     Get-Command #[-listImported | -All  
-    Get-Member  # Quick inspect via cmdlet: $obj | Get-Member (shows TypeName at the top). # Gets the members of objects (properties and methods)
+    Get-Member  # Quick inspect via cmdlet: 
+    $obj | Get-Member (shows TypeName at the top). # Gets the members of objects (properties and methods)
 #Session Cmdlets
     Get-ExecutionPolicy # Get script permissions
     Get-Process # Gets the running processes
@@ -142,10 +144,14 @@
     Microsoft.PowerShell.Utility\Where-Object
     Get-Command -Module Microsoft.PowerShell.* | Select-Object Name, ModuleName
  # Type Inspection
-    # Use the .NET method: $obj.GetType() (returns a System.Type).
-    # Common details: $obj.GetType().FullName, .Name, or .AssemblyQualifiedName.
-    # Pipeline object ($PSItem/$_): ... | ForEach-Object { $_.GetType().FullName }
-    # Type check (related): $obj -is [string] (returns $true/$false).
+    # Use the .NET method: 
+    $obj.GetType() (returns a System.Type).
+    # Common details: 
+    $obj.GetType().FullName, .Name, or .AssemblyQualifiedName.
+    # Pipeline object 
+    ($PSItem/$_): ... | ForEach-Object { $_.GetType().FullName }
+    # Type check (related): 
+    $obj -is [string] (returns $true/$false).
 # Elevate Session to Admin
     Start-Process pwsh -Verb RunAs # Start process calls a new powershell ran as the admin
 # Variables
@@ -258,75 +264,95 @@
 # if syntax
 # ---------------------------------------
 # 🧩 1. Basic if Syntax
-# if (<condition>) { <code> }
-# Example: if ($x -gt 10) { Write-Host "x is greater than 10" }
+if (<condition>) { <code> }
+# Example: 
+if ($x -gt 10) { Write-Host "x is greater than 10" }
 
 # ⚙️ 2. if / else Syntax
-# if (<condition>) { <true code> } else { <false code> }
-# Example: if ($isReady) { Write-Host "Ready to go!" } else { Write-Host "Not ready yet." }
+if (<condition>) { <true code> } else { <false code> }
+# Example: 
+if ($isReady) { Write-Host "Ready to go!" } else { Write-Host "Not ready yet." }
 
 # 🧭 3. if / elseif / else Chain
-# if (<condition1>) { <code1> } elseif (<condition2>) { <code2> } else { <default code> }
-# Example: if ($score -ge 90) { "A" } elseif ($score -ge 80) { "B" } elseif ($score -ge 70) { "C" } else { "F" }
+if (<condition1>) { <code1> } elseif (<condition2>) { <code2> } else { <default code> }
+# Example: 
+if ($score -ge 90) { "A" } elseif ($score -ge 80) { "B" } elseif ($score -ge 70) { "C" } else { "F" }
 
 # 🔍 4. Comparison Operators
-# -eq (equal) → if ($x -eq 5) { }
-# -ne (not equal) → if ($x -ne 5) { }
-# -gt (greater than) → if ($x -gt 5) { }
-# -ge (greater or equal) → if ($x -ge 5) { }
-# -lt (less than) → if ($x -lt 5) { }
-# -le (less or equal) → if ($x -le 5) { }
-# -like (wildcard match) → if ($name -like "A*") { }
-# -match (regex match) → if ($name -match "^A") { }
-# -contains (collection contains item) → if (@('a','b') -contains 'a') { }
+# -eq (equal) → 
+if ($x -eq 5) { }
+# -ne (not equal) → 
+if ($x -ne 5) { }
+# -gt (greater than) → 
+if ($x -gt 5) { }
+# -ge (greater or equal) → 
+if ($x -ge 5) { }
+# -lt (less than) → 
+if ($x -lt 5) { }
+# -le (less or equal) → 
+if ($x -le 5) { }
+# -like (wildcard match) → 
+if ($name -like "A*") { }
+# -match (regex match) → 
+if ($name -match "^A") { }
+# -contains (collection contains item) → 
+if (@('a','b') -contains 'a') { }
 
 # 🔢 5. Logical Operators
-# -and → both true → if (($x -gt 0) -and ($x -lt 10)) { }
-# -or → either true → if (($color -eq "red") -or ($color -eq "blue")) { }
-# -not or ! → negation → if (-not $isReady) { } or if (!$isReady) { }
+# -and → both true → 
+if (($x -gt 0) -and ($x -lt 10)) { }
+# -or → either true → 
+if (($color -eq "red") -or ($color -eq "blue")) { }
+# -not or ! → negation → 
+if (-not $isReady) { } or if (!$isReady) { }
 
 # 🧠 6. Truthy / Falsy Rules
-# Falsey: $false, $null, 0, "", '', @()
+# Falsey: 
+$false, $null, 0, "", '', @()
 # Everything else evaluates to True
-# Example: if ($null) { "True" } else { "False" } → outputs "False"
+# Example: 
+if ($null) { "True" } else { "False" } → outputs "False"
 
 # ⚙️ 7. One-Liner if Statements
-# if ($x -gt 0) { "Positive" } else { "Non-positive" }
-# Or inline with semicolons: if ($x -gt 0) { "Positive" } elseif ($x -eq 0) { "Zero" } else { "Negative" }
+if ($x -gt 0) { "Positive" } else { "Non-positive" }
+# Or inline with semicolons: 
+if ($x -gt 0) { "Positive" } elseif ($x -eq 0) { "Zero" } else { "Negative" }
 
 # 💡 8. Ternary Operator (PowerShell 7+)
-# $result = if ($x -gt 0) { "Positive" } else { "Negative" }
-# or shorthand: $result = ($x -gt 0) ? "Positive" : "Negative"
+$result = if ($x -gt 0) { "Positive" } else { "Negative" }
+# or shorthand: 
+$result = ($x -gt 0) ? "Positive" : "Negative"
 
 # 🧾 9. Example Putting It All Together
-# $temperature = 72
-# if ($temperature -gt 90) { "It's hot!" }
-# elseif ($temperature -gt 70 -and $temperature -le 90) { "Perfect weather." }
-# else { "A little chilly." }
+$temperature = 72
+if ($temperature -gt 90) { "It's hot!" }
+elseif ($temperature -gt 70 -and $temperature -le 90) { "Perfect weather." }
+else { "A little chilly." }
 
 
 # for loops Syntax
 # ---------------------------------------
 # Standard foreach loop:
-# foreach ($item in $array) { <code> }
-# Example: foreach ($color in $colors) { Write-Host "Color: $color" }
+foreach ($item in $array) { <code> }
+# Example: 
+foreach ($color in $colors) { Write-Host "Color: $color" }
 
-# Pipeline ForEach-Object loop:
-# $array | ForEach-Object { Write-Host "Item: $_" }
+Pipeline ForEach-Object loop:
+$array | ForEach-Object { Write-Host "Item: $_" }
 
 # Difference:
-# foreach ($x in $array) → keyword (faster, in-memory)
-# ForEach-Object { ... } → cmdlet (streaming, used with pipelines)
+foreach ($x in $array) → keyword (faster, in-memory)
+ForEach-Object { ... } → cmdlet (streaming, used with pipelines)
 
 # Index-based loop:
-# for ($i = 0; $i -lt $array.Length; $i++) { Write-Host "Index $i = $($array[$i])" }
+for ($i = 0; $i -lt $array.Length; $i++) { Write-Host "Index $i = $($array[$i])" }
 
 # Nested foreach example:
-# foreach ($row in $matrix) { foreach ($cell in $row) { Write-Host "Cell: $cell" } }
+foreach ($row in $matrix) { foreach ($cell in $row) { Write-Host "Cell: $cell" } }
 
 # Flow control:
-# if ($num -eq 5) { continue }  # skip iteration
-# if ($num -gt 8) { break }     # exit loop
+if ($num -eq 5) { continue }  # skip iteration
+if ($num -gt 8) { break }     # exit loop
 
 # One-liner style:
 # @("Red","Green","Blue") | ForEach-Object { Write-Host "[$_]" }
@@ -649,5 +675,5 @@ Write-Warning "Watch this!"
 Write-Information "Done" -InformationAction Continue
 }
 
-
-# ----End of file showPowers-----------------------------------------------------------------
+```
+## ----End of file showPowers-----------------------------------------------------------------
