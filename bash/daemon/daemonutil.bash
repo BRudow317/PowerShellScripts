@@ -34,7 +34,7 @@ service_status() {
         echo "Service not found or status unavailable"
 }
 
-# ----------------------------------------------------------------------------
+
 # restart_service - Safely restart a service with status check
 restart_service() {
     local service="$1"
@@ -62,7 +62,7 @@ restart_service() {
     fi
 }
 
-# ----------------------------------------------------------------------------
+
 # list_services - List all services with their status
 list_services() {
     local filter="${1:-all}"
@@ -87,7 +87,7 @@ list_services() {
     esac
 }
 
-# ----------------------------------------------------------------------------
+
 # watch_service_logs - Watch service logs in real-time
 watch_service_logs() {
     local service="$1"
@@ -102,7 +102,7 @@ watch_service_logs() {
     journalctl -u "$service" -n "$num_lines" -f
 }
 
-# ----------------------------------------------------------------------------
+
 # toggle_service - Enable/disable service on boot
 toggle_service() {
     local service="$1"
